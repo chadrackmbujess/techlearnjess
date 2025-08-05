@@ -22,7 +22,7 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Create a virtual environment 
+Create a virtual environment
 
 ```
 python3.9 -m venv venv
