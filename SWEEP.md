@@ -48,7 +48,6 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-
 ### Structure du projet
 - **Backend**: Django (Python)
 - **Base de données**: SQLite3 (développement)
