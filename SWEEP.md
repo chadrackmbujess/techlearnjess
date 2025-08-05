@@ -48,6 +48,26 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+### Configuration Cloudinary (Stockage des médias)
+
+**Problème résolu** : Les images/vidéos disparaissaient après `git push` sur Render car le stockage local est éphémère.
+
+**Solution** : Stockage externe sur Cloudinary
+
+#### Variables d'environnement nécessaires :
+```env
+# Développement local
+USE_CLOUDINARY=False
+
+# Production sur Render
+USE_CLOUDINARY=true
+CLOUDINARY_CLOUD_NAME=votre-cloud-name
+CLOUDINARY_API_KEY=votre-api-key
+CLOUDINARY_API_SECRET=votre-api-secret
+```
+
+Voir `GUIDE_CLOUDINARY.md` pour les détails complets.
+
 ### Structure du projet
 - **Backend**: Django (Python)
 - **Base de données**: SQLite3 (développement)
