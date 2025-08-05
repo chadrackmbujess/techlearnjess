@@ -1,0 +1,152 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.db.models import Count, Q
+from django.utils import timezone
+from datetime import timedelta
+
+from .models import SiteSettings, Testimonial, FAQ
+from courses.models import Course, Enrollment
+from notifications.models import Notification
+
+User = get_user_model()
+
+
+def home(request):
+    """Page d'accueil"""
+    settings = SiteSettings.get_settings()
+    
+    # Derniers cours disponibles
+    latest_courses = Course.objects.filter(
+        is_published=True
+    ).order_by('-created_at')[:6]
+    
+    # Témoignages mis en avant
+    featured_testimonials = Testimonial.objects.filter(
+        is_featured=True, 
+        is_active=True
+    )[:3]
+    
+    # Statistiques générales
+    stats = {
+        'total_courses': Course.objects.filter(is_published=True).count(),
+        'total_students': User.objects.filter(is_active=True).count(),
+        'total_enrollments': Enrollment.objects.count(),
+    }
+    
+    context = {
+        'settings': settings,
+        'latest_courses': latest_courses,
+        'testimonials': featured_testimonials,
+        'stats': stats,
+    }
+    
+    return render(request, 'core/home.html', context)
+
+
+def about(request):
+    """Page à propos"""
+    settings = SiteSettings.get_settings()
+    
+    # Témoignages actifs
+    testimonials = Testimonial.objects.filter(is_active=True)[:6]
+    
+    # FAQ générale
+    faqs = FAQ.objects.filter(
+        category='general',
+        is_active=True
+    )[:5]
+    
+    context = {
+        'settings': settings,
+        'testimonials': testimonials,
+        'faqs': faqs,
+    }
+    
+    return render(request, 'core/about.html', context)
+
+
+@login_required
+def dashboard(request):
+    """Tableau de bord utilisateur"""
+    user = request.user
+    
+    # Cours en cours
+    current_enrollments = Enrollment.objects.filter(
+        user=user,
+        is_completed=False
+    ).select_related('course')[:5]
+    
+    # Cours terminés
+    completed_enrollments = Enrollment.objects.filter(
+        user=user,
+        is_completed=True
+    ).select_related('course')[:3]
+    
+    # Notifications récentes non lues
+    recent_notifications = Notification.objects.filter(
+        user=user,
+        is_read=False
+    ).order_by('-created_at')[:5]
+    
+    # Sessions live à venir (si l'app existe)
+    upcoming_sessions = []
+    try:
+        from live_sessions.models import LiveSession
+        upcoming_sessions = LiveSession.objects.filter(
+            participants=user,
+            start_time__gte=timezone.now()
+        ).order_by('start_time')[:3]
+    except ImportError:
+        pass
+    
+    # Statistiques personnelles
+    user_stats = {
+        'total_enrollments': Enrollment.objects.filter(user=user).count(),
+        'completed_courses': Enrollment.objects.filter(user=user, is_completed=True).count(),
+        'certificates_earned': 0,  # À implémenter avec l'app certificates
+        'forum_posts': 0,  # À implémenter avec l'app forum
+    }
+    
+    # Calcul du taux de complétion
+    if user_stats['total_enrollments'] > 0:
+        user_stats['completion_rate'] = round(
+            (user_stats['completed_courses'] / user_stats['total_enrollments']) * 100, 1
+        )
+    else:
+        user_stats['completion_rate'] = 0
+    
+    context = {
+        'current_enrollments': current_enrollments,
+        'completed_enrollments': completed_enrollments,
+        'recent_notifications': recent_notifications,
+        'upcoming_sessions': upcoming_sessions,
+        'user_stats': user_stats,
+    }
+    
+    return render(request, 'core/dashboard.html', context)
+
+
+def faq_list(request):
+    """Liste des FAQ"""
+    category = request.GET.get('category', 'all')
+    
+    faqs = FAQ.objects.filter(is_active=True)
+    
+    if category != 'all':
+        faqs = faqs.filter(category=category)
+    
+    # Grouper par catégorie
+    faq_categories = {}
+    for faq in faqs:
+        if faq.category not in faq_categories:
+            faq_categories[faq.category] = []
+        faq_categories[faq.category].append(faq)
+    
+    context = {
+        'faq_categories': faq_categories,
+        'current_category': category,
+        'categories': FAQ._meta.get_field('category').choices,
+    }
+    
+    return render(request, 'core/faq.html', context)
