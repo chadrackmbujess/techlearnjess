@@ -18,6 +18,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'techlearnjess.settings')
 django.setup()
 
 # 💡 Import chat.routing après django.setup()
+# 💡 Import chat.routing après django.setup()
 import chat.routing
 
 application = ProtocolTypeRouter({
