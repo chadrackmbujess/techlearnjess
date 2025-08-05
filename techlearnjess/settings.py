@@ -149,6 +149,16 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Configuration pour le stockage des médias
+MEDIA_DIRS = {
+    'images': MEDIA_ROOT / 'images',
+    'videos': MEDIA_ROOT / 'videos', 
+    'documents': MEDIA_ROOT / 'documents',
+    'avatars': MEDIA_ROOT / 'avatars',
+    'course_materials': MEDIA_ROOT / 'course_materials',
+    'certificates': MEDIA_ROOT / 'certificates',
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
