@@ -1,23 +1,19 @@
 #!/usr/bin/env python
 """
 Script de démarrage pour serveur ASGI sur Render
-Utilise Daphne pour servir l'application Django avec support WebSocket
+Utilise Uvicorn pour servir l'application Django avec support WebSocket
 """
 import os
-import sys
-from daphne.cli import CommandLineInterface
+import uvicorn
 
 if __name__ == '__main__':
     # Configuration pour Render
-    port = os.environ.get('PORT', '10000')
+    port = int(os.environ.get('PORT', '10000'))
     
-    # Arguments pour Daphne
-    sys.argv = [
-        'daphne',
-        '-b', '0.0.0.0',
-        '-p', port,
-        'techlearnjess.asgi:application'
-    ]
-    
-    # Lancer Daphne
-    CommandLineInterface.entrypoint()
+    # Lancer Uvicorn avec l'application ASGI
+    uvicorn.run(
+        "techlearnjess.asgi:application",
+        host="0.0.0.0",
+        port=port,
+        log_level="info"
+    )
