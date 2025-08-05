@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.utils import timezone
+from django.http import HttpResponse
+from django.template import loader
 from datetime import timedelta
 
 from .models import SiteSettings, Testimonial, FAQ
@@ -205,3 +207,72 @@ def legal_notice(request):
     }
     
     return render(request, 'core/legal_notice.html', context)
+
+
+def sitemap_xml(request):
+    """Génération du sitemap XML pour le SEO"""
+    from django.contrib.sites.models import Site
+    
+    try:
+        current_site = Site.objects.get_current()
+        domain = f"https://{current_site.domain}"
+    except:
+        domain = "https://techlearnjess.onrender.com"
+    
+    # Récupérer tous les cours publiés
+    courses = Course.objects.filter(is_published=True)
+    
+    # Récupérer les topics du forum (si disponible)
+    forum_topics = []
+    try:
+        from forum.models import Topic
+        forum_topics = Topic.objects.filter(is_active=True)[:50]  # Limiter à 50
+    except ImportError:
+        pass
+    
+    context = {
+        'domain': domain,
+        'current_date': timezone.now(),
+        'courses': courses,
+        'forum_topics': forum_topics,
+    }
+    
+    template = loader.get_template('sitemap.xml')
+    xml_content = template.render(context, request)
+    
+    return HttpResponse(xml_content, content_type='application/xml')
+
+
+def robots_txt(request):
+    """Génération du fichier robots.txt"""
+    lines = [
+        "User-agent: *",
+        "Allow: /",
+        "",
+        "# Sitemap",
+        "Sitemap: https://techlearnjess.onrender.com/sitemap.xml",
+        "",
+        "# Pages importantes pour le SEO",
+        "Allow: /",
+        "Allow: /about/",
+        "Allow: /courses/",
+        "Allow: /forum/",
+        "Allow: /live-sessions/",
+        "Allow: /faq/",
+        "",
+        "# Bloquer les pages administratives",
+        "Disallow: /admin/",
+        "Disallow: /accounts/logout/",
+        "Disallow: /api/",
+        "",
+        "# Bloquer les fichiers temporaires",
+        "Disallow: /*.tmp$",
+        "Disallow: /*.log$",
+        "",
+        "# Informations sur le fondateur Chadrack Mbu Jess",
+        "# Site créé par Chadrack Mbu Jess (Chadrackmbujess)",
+        "# Contact: chadrackmbujess@gmail.com",
+        "# Portfolio: https://chadrackmbu.pythonanywhere.com/",
+    ]
+    
+    return HttpResponse("\n".join(lines), content_type="text/plain")

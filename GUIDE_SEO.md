@@ -10,18 +10,15 @@
 - Données structurées Schema.org
 - Géolocalisation (Matadi, RDC)
 
-### 2. Mots-clés Ciblés pour Chadrack Mbu Jess
-✅ **Toutes les variantes du nom** sont intégrées :
-- Chadrack Mbu Jess
-- Chadrackmbujess
-- Chadrack mbujess
-- Chadrackmbu jess
-- Chadrack
-- Chadrack mbu
-- mbu jess
-- mbu
-- mbu pioka
-- pioka
+### 2. Mots-clés Ciblés Optimisés
+✅ **Toutes les variantes du fondateur** sont intégrées :
+- Chadrack Mbu Jess, Chadrackmbujess, Chadrack mbujess
+- Chadrackmbu jess, Chadrack, Chadrack mbu, mbu jess
+- mbu, mbu pioka, pioka
+
+✅ **Toutes les variantes de l'entreprise** sont intégrées :
+- TechLearnJess, Tech LearnJess, TechLearn Jess
+- Tech Learn Jess, techlearnjess
 
 ### 3. Pages Optimisées
 ✅ **Page d'accueil** (`templates/core/home.html`) :

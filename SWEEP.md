@@ -68,6 +68,31 @@ CLOUDINARY_API_SECRET=votre-api-secret
 
 Voir `GUIDE_CLOUDINARY.md` pour les détails complets.
 
+### Optimisation SEO - Chadrack Mbu Jess
+
+**Référencement Google optimisé** pour toutes les variantes du nom du fondateur :
+
+#### Mots-clés ciblés :
+**Fondateur :**
+- Chadrack Mbu Jess, Chadrackmbujess, Chadrack mbujess
+- Chadrackmbu jess, Chadrack, Chadrack mbu, mbu jess
+- mbu, mbu pioka, pioka
+
+**Entreprise :**
+- TechLearnJess, Tech LearnJess, TechLearn Jess
+- Tech Learn Jess, techlearnjess
+
+**Secteur :**
+- formation RDC, cours technologie Congo, développement web Matadi
+
+#### Fichiers SEO configurés :
+- `/sitemap.xml` - Sitemap dynamique
+- `/robots.txt` - Optimisé pour les moteurs de recherche
+- Métadonnées complètes (Open Graph, Twitter Cards, Schema.org)
+- Données structurées pour l'organisation et le fondateur
+
+Voir `GUIDE_SEO.md` pour les détails complets et les actions à suivre.
+
 ### Structure du projet
 - **Backend**: Django (Python)
 - **Base de données**: SQLite3 (développement)
