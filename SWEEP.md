@@ -22,6 +22,33 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+Create a virtual environment 
+
+```
+python3.9 -m venv venv
+```
+
+### Activate a virtual environment
+
+Linux/mac user 
+
+```
+source venv/bin/activate
+```
+
+Window user 
+
+```
+venv\Scripts\activate
+```
+
+### Install requirements 
+
+```
+pip install -r requirements.txt
+```
+
+
 ### Structure du projet
 - **Backend**: Django (Python)
 - **Base de données**: SQLite3 (développement)
