@@ -150,3 +150,58 @@ def faq_list(request):
     }
     
     return render(request, 'core/faq.html', context)
+
+
+def privacy_policy(request):
+    """Page Politique de confidentialité"""
+    from decouple import config
+    
+    context = {
+        'company_name': config('COMPANY_NAME'),
+        'company_address': config('COMPANY_ADDRESS'),
+        'company_email': config('COMPANY_EMAIL'),
+        'company_phone': config('COMPANY_PHONE'),
+        'data_protection_email': config('DATA_PROTECTION_EMAIL'),
+        'privacy_policy_version': config('PRIVACY_POLICY_VERSION'),
+        'privacy_policy_date': config('PRIVACY_POLICY_DATE'),
+        'data_controller': config('DATA_CONTROLLER'),
+    }
+    
+    return render(request, 'core/privacy_policy.html', context)
+
+
+def terms_of_service(request):
+    """Page Conditions d'utilisation"""
+    from decouple import config
+    
+    context = {
+        'company_name': config('COMPANY_NAME'),
+        'company_address': config('COMPANY_ADDRESS'),
+        'company_email': config('COMPANY_EMAIL'),
+        'company_phone': config('COMPANY_PHONE'),
+        'company_website': config('COMPANY_WEBSITE'),
+        'terms_version': config('TERMS_VERSION'),
+        'terms_date': config('TERMS_DATE'),
+        'governing_law': config('GOVERNING_LAW'),
+    }
+    
+    return render(request, 'core/terms_of_service.html', context)
+
+
+def legal_notice(request):
+    """Page Mentions légales"""
+    from decouple import config
+    
+    context = {
+        'company_name': config('COMPANY_NAME'),
+        'company_address': config('COMPANY_ADDRESS'),
+        'company_email': config('COMPANY_EMAIL'),
+        'company_phone': config('COMPANY_PHONE'),
+        'company_website': config('COMPANY_WEBSITE'),
+        'legal_representative': config('LEGAL_REPRESENTATIVE'),
+        'legal_title': config('LEGAL_TITLE'),
+        'registration_number': config('REGISTRATION_NUMBER'),
+        'tax_number': config('TAX_NUMBER'),
+    }
+    
+    return render(request, 'core/legal_notice.html', context)

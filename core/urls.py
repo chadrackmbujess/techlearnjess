@@ -8,4 +8,9 @@ urlpatterns = [
     path('a-propos/', views.about, name='about'),
     path('tableau-de-bord/', views.dashboard, name='dashboard'),
     path('faq/', views.faq_list, name='faq'),
+    
+    # Pages légales
+    path('politique-confidentialite/', views.privacy_policy, name='privacy_policy'),
+    path('conditions-utilisation/', views.terms_of_service, name='terms_of_service'),
+    path('mentions-legales/', views.legal_notice, name='legal_notice'),
 ]
